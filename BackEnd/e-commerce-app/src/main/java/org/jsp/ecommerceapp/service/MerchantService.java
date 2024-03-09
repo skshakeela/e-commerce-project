@@ -91,6 +91,22 @@ public class MerchantService {
 		}
 		throw new InvalidCredentialsException("invalid phone or password");
 	}
+	
+	
+	public ResponseEntity<ResponseStructure<Merchant>> verify(String email,String password){
+		Optional<Merchant> recMerchant=merchantDao.verify(email, password);
+		ResponseStructure<Merchant> structure=new ResponseStructure<>();
+		if(recMerchant.isPresent()) {
+			structure.setMessage("verification successful");
+			structure.setBody(recMerchant.get());
+			structure.setStatusCode(HttpStatus.OK.value());
+			return new ResponseEntity<ResponseStructure<Merchant>>(structure, HttpStatus.OK);
+		}
+		throw new InvalidCredentialsException("invalid email or password");
+	}
+	
+	
+	
 	public ResponseEntity<ResponseStructure<List<Merchant>>> findByName(String name) {
 		ResponseStructure<List<Merchant>> structure = new ResponseStructure<>();
 		List<Merchant> merchants = merchantDao.findByName(name);
