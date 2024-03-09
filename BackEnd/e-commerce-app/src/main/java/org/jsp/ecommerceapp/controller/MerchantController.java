@@ -8,6 +8,7 @@ import org.jsp.ecommerceapp.service.MerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/merchants")
 public class MerchantController {
 	@Autowired
@@ -54,6 +56,10 @@ public class MerchantController {
 	public ResponseEntity<ResponseStructure<Merchant>> verifyMerchant(@RequestParam long phone,
 			@RequestParam String password) {
 		return merchantService.verifyMerchant(phone, password);
+	}
+	@PostMapping("/verify-by-email")
+	public ResponseEntity<ResponseStructure<Merchant>> verifyMerchant(@RequestParam String email,@RequestParam String password){
+		return merchantService.verify(email, password);
 	}
 
 	@GetMapping("/find-by-name/{name}")
